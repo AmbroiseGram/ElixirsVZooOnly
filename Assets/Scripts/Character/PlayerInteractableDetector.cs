@@ -10,12 +10,22 @@ public class PlayerInteractableDetector : MonoBehaviour
 
     bool carryable;
     Interactable lastTarget;
+
+    private void Update()
+    {
+        UpdateCurrentCarryable();
+    }
+
     private void UpdateCurrentCarryable()
     {
         if(interractables.Count == 0)
+        {
             currentTarget = null;
+            return;
+        }
 
-        List<Interactable> filtered = interractables.Where(x => (carryable)? x.canTake : x.canFill).ToList();
+
+        List<Interactable> filtered = interractables.Where(x => ((carryable)? x.canTake : x.canFill) && x.canBeUsed).ToList();
         currentTarget = filtered.OrderBy(x => (x.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
         if(currentTarget != lastTarget)
         {
