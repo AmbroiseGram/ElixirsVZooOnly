@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ValuedCarryable : Interactable
@@ -21,11 +22,23 @@ public class ValuedCarryable : Interactable
 
     public void HideText()
     {
-        valueText.text = "";
+        valueText.gameObject.SetActive(false);
     }
 
     public void ShowText()
     {
+        UpdateText();
+        valueText.gameObject.SetActive(true);
+    }
+
+    private void UpdateText()
+    {
         valueText.text = value.ToString();
+    }
+
+    internal void SetValue(int value)
+    {
+        this.value = value;
+        UpdateText();
     }
 }

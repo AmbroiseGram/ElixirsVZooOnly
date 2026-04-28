@@ -1,15 +1,16 @@
+using System;
 using UnityEngine;
 
 public class Spot : Interactable
 {
-    public ValuedCarryable carriable;
+    public ValuedCarryable onTop;
     [SerializeField] TMPro.TMP_Text valueText;
 
     public override void Drop(ValuedCarryable carriable)
     {
         if (canFill)
         {
-            this.carriable = carriable;
+            this.onTop = carriable;
             carriable.canBeUsed = false;
             carriable.transform.position = transform.position;
             carriable.transform.SetParent(transform);
@@ -18,6 +19,7 @@ public class Spot : Interactable
             canTake = true;
             valueText.text = carriable.GetValue().ToString();
         }
+        base.Drop(carriable);    
     }
 
     public override ValuedCarryable Take()
@@ -25,7 +27,8 @@ public class Spot : Interactable
         canTake = false;
         canFill = true;
         valueText.text = "";
-        return carriable;
+        base.Take();
+        return onTop;
     }
 
 }
