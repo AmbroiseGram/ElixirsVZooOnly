@@ -8,7 +8,6 @@ public class CharacterInteractionManager : MonoBehaviour
     ValuedCarryable holded = null;
 
     [SerializeField] GameObject placeholderHolded;
-    [SerializeField] TMPro.TMP_Text value;
     private void Start()
     {
         interactableDetector.SetTargetCarryable(true);
@@ -32,9 +31,8 @@ public class CharacterInteractionManager : MonoBehaviour
         holded.canBeUsed = true;
         holded.transform.SetParent(null);
         placeholderHolded.SetActive(false);
-        value.text = "";
         interactableDetector.SetTargetCarryable(true);
-        holded.ShowText();        
+        
         if (temp != null)
         {
             temp.Drop(holded.GetComponent<ValuedCarryable>());
@@ -59,10 +57,9 @@ public class CharacterInteractionManager : MonoBehaviour
         holded = tempV;
         holded.canBeUsed = false;
         holded.transform.SetParent(transform);
-        holded.HideText();
         holded.gameObject.SetActive(false);
+        holded.transform.position = transform.position;
         placeholderHolded.SetActive(true);
-        value.text = holded.GetComponent<ValuedCarryable>().GetValue().ToString();
         interactableDetector.SetTargetCarryable(false);
     }
 }

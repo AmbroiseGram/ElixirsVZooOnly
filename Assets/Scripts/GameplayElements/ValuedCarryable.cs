@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ValuedCarryable : Interactable
 {
-    int value;
+    [SerializeField] int value;
     [SerializeField] TMPro.TMP_Text valueText;
 
     private void Start()
