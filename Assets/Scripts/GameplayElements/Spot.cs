@@ -11,7 +11,6 @@ public class Spot : Interactable
         {
             this.onTop = carriable;
             carriable.canBeUsed = false;
-            carriable.transform.position = transform.position;
             carriable.transform.SetParent(transform);
             canFill = false;
             canTake = true;

@@ -10,7 +10,9 @@ public class Stock : Spot
     public float timeAnimation;
 
     [SerializeField] private SpriteRenderer sprite;
-
+    [SerializeField] float minusPosSpawn;
+    [SerializeField] float plusPosSpawn;
+    [SerializeField] float timeToSpawn;
     private void Start()
     {
         Generate();
@@ -43,9 +45,17 @@ public class Stock : Spot
             }
             yield return null;
         }
-        ValuedCarryable temp = Instantiate(potion, transform.position, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
+        ValuedCarryable temp = Instantiate(potion, transform.position - Vector3.up * minusPosSpawn, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
+        SpriteRenderer spriteRenderer = temp.GetComponentInChildren<SpriteRenderer>();
         temp.SetValue(value);
         Drop(temp);
+        time = 0;
+        while(time < timeToSpawn)
+        {
+            temp.transform.position = Vector3.Lerp(temp.transform.position, transform.position + Vector3.up * plusPosSpawn, time / timeToSpawn);
+            time += Time.deltaTime;
+            yield return null;
+        }
         canBeUsed = true;
 
         time = 0;
@@ -63,5 +73,6 @@ public class Stock : Spot
             }
             yield return null;
         }
+        spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
     }
 }
