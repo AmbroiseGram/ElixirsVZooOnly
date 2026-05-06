@@ -11,8 +11,10 @@ public class Effector : MonoBehaviour
     public Operation operation;
     void Start()
     {
+        operation = new Operation();
         Enter1.onFill += OnSpotFilled;
-        Enter2.onFill += OnSpotFilled;
+        if(Enter2 != null)
+            Enter2.onFill += OnSpotFilled;
     }
 
     private void OnSpotFilled(ValuedCarryable carryable)
@@ -25,17 +27,12 @@ public class Effector : MonoBehaviour
 
     private IEnumerator Declenche()
     {
+        ValuedCarryable Entry1 = Enter1.Take();
+        Value input1 = Entry1.GetValue();
         Destroy(Enter1.Take().gameObject);
-        ValuedCarryable newPotion = Instantiate(potionPrefab, Exit.transform.position, Quaternion.identity).GetComponent<ValuedCarryable>();
-      //  newPotion
+        ValuedCarryable newPotion = Instantiate(potionPrefab, Exit.transform.position, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
+        newPotion.SetValue(operation.Operate(input1).value);
         yield return null;
     }
 }
 
-public class  Operation
-{
-    public int Operate(int a)
-    {
-        return a;
-    }
-}

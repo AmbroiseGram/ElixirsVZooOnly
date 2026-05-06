@@ -11,6 +11,9 @@ public class UpdatePositionToMovingObject : MonoBehaviour
 
     private void Update()
     {
-        transform.position = target.position + offset;
+        if (target == null)
+            Destroy(gameObject);
+        else
+            transform.position = target.position + offset;
     }
 }

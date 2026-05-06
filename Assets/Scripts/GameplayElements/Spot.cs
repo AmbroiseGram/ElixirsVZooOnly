@@ -4,7 +4,7 @@ using UnityEngine;
 public class Spot : Interactable
 {
     public ValuedCarryable onTop;
-
+    public bool setpos;
     public override void Drop(ValuedCarryable carriable)
     {
         if (canFill)
@@ -14,6 +14,8 @@ public class Spot : Interactable
             carriable.transform.SetParent(transform);
             canFill = false;
             canTake = true;
+            if (setpos)
+                carriable.transform.position = transform.position;
         }
         base.Drop(carriable);    
     }

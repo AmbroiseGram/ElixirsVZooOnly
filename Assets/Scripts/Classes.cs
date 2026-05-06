@@ -1,5 +1,21 @@
 using UnityEngine;
 
-public class Classes
-{
+
+    public class Operation
+    {
+        public Value Operate(Value a)
+        {
+            return a;
+        }
+    }
+
+    public class Value
+    {
+        public int value;
+
+    public Value(int value)
+    {
+        this.value = value;
+    }
 }
+

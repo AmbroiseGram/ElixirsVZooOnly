@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ValuedCarryable : Interactable
 {
-    [SerializeField] int value;
+    [SerializeField] Value value;
     [SerializeField] TMPro.TMP_Text valueText;
 
     private void Start()
@@ -15,7 +15,12 @@ public class ValuedCarryable : Interactable
         return this;
     }
 
-    public int GetValue()
+    public int GetValueInt()
+    {
+        return value.value;
+    }
+
+    public Value GetValue()
     {
         return value;
     }
@@ -33,12 +38,18 @@ public class ValuedCarryable : Interactable
 
     private void UpdateText()
     {
-        valueText.text = value.ToString();
+        valueText.text = value.value.ToString();
+    }
+
+    public void SetValue(Value value)
+    {
+        this.value = value;
+        UpdateText();
     }
 
     internal void SetValue(int value)
     {
-        this.value = value;
+        this.value = new Value(value);
         UpdateText();
     }
 }

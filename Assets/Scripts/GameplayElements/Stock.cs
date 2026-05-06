@@ -21,7 +21,7 @@ public class Stock : Spot
 
     private void Generate()
     {
-        StopCoroutine(GenerateCoroutine());
+        StopAllCoroutines();
         canBeUsed = false;
         StartCoroutine(GenerateCoroutine());
 
@@ -50,16 +50,17 @@ public class Stock : Spot
         temp.SetValue(value);
         Drop(temp);
         time = 0;
-        while(time < timeToSpawn)
+        Vector3 basePos = temp.transform.position;
+        while (time < timeToSpawn)
         {
-            temp.transform.position = Vector3.Lerp(temp.transform.position, transform.position + Vector3.up * plusPosSpawn, time / timeToSpawn);
+            temp.transform.position = Vector3.Lerp(basePos, transform.position + Vector3.up * plusPosSpawn, time / timeToSpawn);
             time += Time.deltaTime;
             yield return null;
         }
         canBeUsed = true;
-
         time = 0;
         index = spritesStock.Length-1;
+        spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
         while (index > 0)
         {
             time += Time.deltaTime;
@@ -73,6 +74,6 @@ public class Stock : Spot
             }
             yield return null;
         }
-        spriteRenderer.maskInteraction = SpriteMaskInteraction.None;
+
     }
 }
