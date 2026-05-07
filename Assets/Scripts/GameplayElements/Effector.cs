@@ -9,17 +9,22 @@ public class Effector : MonoBehaviour
     [SerializeField] private Spot Exit;
     [SerializeField] private GameObject potionPrefab;
     public Operation operation;
+    public Value value;
     void Start()
     {
         operation = new Operation();
-        Enter1.onFill += OnSpotFilled;
-        if(Enter2 != null)
-            Enter2.onFill += OnSpotFilled;
+        Enter1.onFill += OnTestEffectorEvent;
+        Exit.onTake += OnTestEffector;
     }
 
-    private void OnSpotFilled(ValuedCarryable carryable)
+    private void OnTestEffectorEvent(ValuedCarryable carryable)
     {
-        if(Enter1.onTop != null && (Enter2 == null || Enter2.onTop != null))
+        OnTestEffector();
+    }
+
+    private void OnTestEffector()
+    {
+        if(Enter1.onTop != null && Exit.onTop == null)
         {
             StartCoroutine(Declenche());
         }
@@ -29,9 +34,10 @@ public class Effector : MonoBehaviour
     {
         ValuedCarryable Entry1 = Enter1.Take();
         Value input1 = Entry1.GetValue();
-        Destroy(Enter1.Take().gameObject);
+        Destroy(Entry1.gameObject);
         ValuedCarryable newPotion = Instantiate(potionPrefab, Exit.transform.position, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
-        newPotion.SetValue(operation.Operate(input1).value);
+        newPotion.SetValue(operation.Operate(input1, value).value);
+        Exit.Drop(newPotion);
         yield return null;
     }
 }

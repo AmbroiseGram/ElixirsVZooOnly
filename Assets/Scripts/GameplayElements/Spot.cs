@@ -7,16 +7,15 @@ public class Spot : Interactable
     public bool setpos;
     public override void Drop(ValuedCarryable carriable)
     {
-        if (canFill)
-        {
-            this.onTop = carriable;
-            carriable.canBeUsed = false;
-            carriable.transform.SetParent(transform);
-            canFill = false;
-            canTake = true;
-            if (setpos)
-                carriable.transform.position = transform.position;
-        }
+
+        this.onTop = carriable;
+        carriable.canBeUsed = false;
+        carriable.transform.SetParent(transform);
+        canFill = false;
+        canTake = true;
+        if (setpos)
+            carriable.transform.position = transform.position;
+
         base.Drop(carriable);    
     }
 
@@ -24,8 +23,12 @@ public class Spot : Interactable
     {
         canTake = false;
         canFill = true;
+
+        ValuedCarryable temp = onTop;
+
+        onTop = null;
         base.Take();
-        return onTop;
+        return temp;
     }
 
 }

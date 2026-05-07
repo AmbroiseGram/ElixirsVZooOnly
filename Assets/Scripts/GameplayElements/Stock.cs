@@ -4,7 +4,7 @@ using UnityEngine;
 public class Stock : Spot
 {
     [SerializeField] private GameObject potion;
-    public int value;
+    public Value value;
 
     public Sprite[] spritesStock;
     public float timeAnimation;
