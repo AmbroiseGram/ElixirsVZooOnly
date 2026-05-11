@@ -192,64 +192,6 @@ Transform:
   - {fileID: 1584443715}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &457681021 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2288535239816581045, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-  m_PrefabInstance: {fileID: 3687450015034339573}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &457681025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457681021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe892ef8dbfdbef4587ba1ff08c18442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canTake: 1
-  canFill: 0
-  canBeUsed: 1
-  onTop: {fileID: 0}
-  setpos: 1
---- !u!58 &457681029
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457681021}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 1
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,17 +536,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &834386535 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4929942529071458585, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-  m_PrefabInstance: {fileID: 3687450015034339573}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe892ef8dbfdbef4587ba1ff08c18442, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1584443714
 GameObject:
   m_ObjectHideFlags: 0
@@ -895,36 +826,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Effector Parent
       objectReference: {fileID: 0}
-    - target: {fileID: 7754263634705068156, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      propertyPath: Exit
-      value: 
-      objectReference: {fileID: 457681025}
-    - target: {fileID: 7754263634705068156, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      propertyPath: Enter1
-      value: 
-      objectReference: {fileID: 834386535}
-    - target: {fileID: 7754263634705068156, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+    - target: {fileID: 5351354868076743510, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
+      propertyPath: setpos
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7754263634705068156, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      propertyPath: value.value
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7754263634705068156, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      propertyPath: potionPrefab
-      value: 
-      objectReference: {fileID: 4301172576368875228, guid: a4f7131af9d3a9a4aa2ff5975e39db46, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2288535239816581045, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 457681025}
-    - targetCorrespondingSourceObject: {fileID: 2288535239816581045, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 457681029}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4aa37fb0289d9de489733f9df71f1dc8, type: 3}
 --- !u!1001 &6347635756047770675
 PrefabInstance:

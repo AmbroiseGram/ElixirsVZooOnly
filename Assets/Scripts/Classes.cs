@@ -11,12 +11,12 @@ public enum EOperationType
 
 [System.Serializable]
 public class Operation
-    {
+{
 
     public EOperationType operationType;
     public Value Operate(Value a, Value b)
     {
-        switch(operationType)
+        switch (operationType)
         {
             case EOperationType.Add:
                 return new Value(a.value + b.value);
@@ -28,9 +28,24 @@ public class Operation
                 return new Value(a.value / b.value);
         }
         return a;
-        }
     }
 
+    public string GetSymbol()
+    {
+        switch (operationType)
+        {
+            case EOperationType.Add:
+                return "+";
+            case EOperationType.Subtract:
+                return "-";
+            case EOperationType.Multiply:
+                return "*";
+            case EOperationType.Divide:
+                return "/";
+        }
+        return "";
+    }
+}
 [System.Serializable]
 public class Value
     {
