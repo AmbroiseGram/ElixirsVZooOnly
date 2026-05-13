@@ -5,7 +5,7 @@ public class ValuedCarryable : Interactable
 {
     [SerializeField] Value value;
     [SerializeField] TMPro.TMP_Text valueText;
-
+    [SerializeField] Collider2D[] colliders;
     private void Start()
     {
         ShowText();
@@ -51,5 +51,13 @@ public class ValuedCarryable : Interactable
     {
         this.value = new Value(value);
         UpdateText();
+    }
+
+    internal void EnableAllColliders(bool enable)
+    {
+        foreach (var col in colliders)
+        {
+            col.enabled = enable;
+        }
     }
 }

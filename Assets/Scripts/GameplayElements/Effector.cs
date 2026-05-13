@@ -14,6 +14,7 @@ public class Effector : MonoBehaviour
     [SerializeField] private TMP_Text operationText;
     [SerializeField] float timeAnimationPotion;
     [SerializeField] private Transform posPotion;
+    [SerializeField] private float amplitudeJumpPotion;
     void Start()
     {
         operation = new Operation();
@@ -37,30 +38,25 @@ public class Effector : MonoBehaviour
 
     private IEnumerator Declenche()
     {
-        Enter1.canBeUsed = false;
-        if(Enter2)
-            Enter2.canBeUsed = false;
-        Exit.canBeUsed = false;
+        ActivateSpots(false);
         ValuedCarryable Entry1 = Enter1.Take();
-        Value input1 = Entry1.GetValue();
+        Value input1 = Entry1.GetValue();     
 
-        float currentTime = 0;
-        Vector3 basepos = Entry1.transform.position;
-        while(currentTime < timeAnimationPotion)
-        {
-            currentTime += Time.deltaTime;
-            Vector3 targetPos = Vector3.Lerp(basepos, posPotion.position, currentTime / timeAnimationPotion);
-            targetPos.y = Mathf.Sin(Mathf.PI * currentTime);
-            Entry1.transform.position = targetPos;
-            yield return 0;
-        }
-
-
+        yield return new WaitForSeconds(0.5f);
         Destroy(Entry1.gameObject);
         ValuedCarryable newPotion = Instantiate(potionPrefab, Exit.transform.position, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
         newPotion.SetValue(operation.Operate(input1, value).value);
         Exit.Drop(newPotion);
+        ActivateSpots(true);
         yield return null;
+    }
+
+    private void ActivateSpots(bool active)
+    {
+        Enter1.canBeUsed = active;
+        if (Enter2)
+            Enter2.canBeUsed = active;
+        Exit.canBeUsed = active;
     }
 }
 

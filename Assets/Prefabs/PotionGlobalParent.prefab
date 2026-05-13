@@ -288,8 +288,11 @@ MonoBehaviour:
   canTake: 1
   canFill: 0
   canBeUsed: 1
-  value: 0
+  value:
+    value: 0
   valueText: {fileID: 4080749610152948860}
+  colliders:
+  - {fileID: 5959668389559149524}
 --- !u!58 &5959668389559149524
 CircleCollider2D:
   m_ObjectHideFlags: 0

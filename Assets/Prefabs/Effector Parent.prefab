@@ -111,6 +111,8 @@ MonoBehaviour:
   value:
     value: 7
   operationText: {fileID: 8648867013315941780}
+  timeAnimationPotion: 2
+  posPotion: {fileID: 0}
 --- !u!114 &5351354868076743510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +129,7 @@ MonoBehaviour:
   canFill: 0
   canBeUsed: 1
   onTop: {fileID: 0}
-  setpos: 1
+  setpos: 0
 --- !u!58 &847212697755665660
 CircleCollider2D:
   m_ObjectHideFlags: 0
