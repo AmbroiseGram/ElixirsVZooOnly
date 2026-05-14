@@ -14,6 +14,10 @@ public class Interactable : MonoBehaviour
         onFill?.Invoke(toDrop);
     }
 
+    public virtual void PreDrop(ValuedCarryable toDrop)
+    {
+
+    }
 
     public event Action onTake;
     public event Action<ValuedCarryable> onFill;

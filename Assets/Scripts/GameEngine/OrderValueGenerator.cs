@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class OrderValueGenerator : MonoBehaviour
 {
+    public static OrderValueGenerator instance;
     int depth = 5;
     List<ListValue> orderValues = new List<ListValue>();
     private void Awake()
     {
         List<Effector> effectors = FindObjectsByType<Effector>(FindObjectsSortMode.None).ToList();
         List<Stock> stocks = FindObjectsByType<Stock>(FindObjectsSortMode.None).ToList();
+        instance = this;
         orderValues = new List<ListValue>();
         orderValues.Add(new ListValue());
         List<Value> uniqueValues = new List<Value>();
@@ -41,5 +43,10 @@ public class OrderValueGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+public Value GetRandomValue(int difficulty)
+    {
+        return orderValues[difficulty].values[Random.Range(0, orderValues[difficulty].values.Count)];
     }
 }

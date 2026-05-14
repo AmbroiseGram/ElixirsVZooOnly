@@ -50,6 +50,8 @@ public class CharacterInteractionManager : MonoBehaviour
     {
         carried.EnableAllColliders(false);
         carried.transform.SetParent(null);
+        if (dropPlace != null)
+            dropPlace.PreDrop(carried);
         yield return StartCoroutine(MoveCurve(carried.gameObject, pos, 0.5f, (dropPlace != null) ? dropPlace.transform : null));
 
         carried.EnableAllColliders(true);

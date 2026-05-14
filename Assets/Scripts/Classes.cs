@@ -67,3 +67,31 @@ public class ListValue
     }
 }
 
+[System.Serializable]
+public class Level
+{
+    public List<Difficulty> difficulties;
+    List<int> currentDifficulty = new List<int>();
+
+    public int GetRandomDifficulty()
+    { 
+        if(currentDifficulty.Count ==0)
+        {
+            foreach (Difficulty d in difficulties)
+                for (int i = 0; i < d.probability; i++)
+                    currentDifficulty.Add(d.difficulty);
+        }
+
+        int diff = currentDifficulty[Random.Range(0, currentDifficulty.Count - 1)];
+        currentDifficulty.Remove(diff);
+        return diff;
+    }
+}
+
+[System.Serializable]
+public class Difficulty
+{
+    public int difficulty;
+    public int probability;
+}
+
