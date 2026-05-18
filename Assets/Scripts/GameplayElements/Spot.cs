@@ -11,8 +11,6 @@ public class Spot : Interactable
         this.onTop = carriable;
         carriable.canBeUsed = false;
         carriable.transform.SetParent(transform);
-        canFill = false;
-        canTake = true;
         if (setpos)
             carriable.transform.position = transform.position;
 
@@ -21,8 +19,6 @@ public class Spot : Interactable
 
     public override ValuedCarryable Take()
     {
-        canTake = false;
-        canFill = true;
 
         ValuedCarryable temp = onTop;
 
@@ -31,4 +27,8 @@ public class Spot : Interactable
         return temp;
     }
 
+    public override ValuedCarryable GetOnTop()
+    {
+        return onTop;
+    }
 }

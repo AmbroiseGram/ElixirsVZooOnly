@@ -15,6 +15,7 @@ public class Effector : MonoBehaviour
     [SerializeField] float timeAnimationPotion;
     [SerializeField] private Transform posPotion;
     [SerializeField] private float amplitudeJumpPotion;
+    bool skipnext = false;
     void Start()
     {
         operation = new Operation();
@@ -25,12 +26,17 @@ public class Effector : MonoBehaviour
 
     private void OnTestEffectorEvent(ValuedCarryable carryable)
     {
+        if(skipnext)
+        {
+            skipnext = false;
+            return;
+        }
         OnTestEffector();
     }
 
     private void OnTestEffector()
     {
-        if(Enter1.onTop != null && Exit.onTop == null)
+        if(Enter1.onTop != null)
         {
             StartCoroutine(Declenche());
         }
@@ -46,6 +52,7 @@ public class Effector : MonoBehaviour
         Destroy(Entry1.gameObject);
         ValuedCarryable newPotion = Instantiate(potionPrefab, Exit.transform.position, Quaternion.identity).GetComponentInChildren<ValuedCarryable>();
         newPotion.SetValue(operation.Operate(input1, value).value);
+        skipnext = true;
         Exit.Drop(newPotion);
         ActivateSpots(true);
         yield return null;

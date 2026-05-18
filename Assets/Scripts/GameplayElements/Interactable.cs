@@ -19,6 +19,11 @@ public class Interactable : MonoBehaviour
 
     }
 
+    public virtual ValuedCarryable GetOnTop()
+    {
+        return null;
+    }
+
     public event Action onTake;
     public event Action<ValuedCarryable> onFill;
 

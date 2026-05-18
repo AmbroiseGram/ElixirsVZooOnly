@@ -189,12 +189,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0f434f0ab4df64d94fac902500a19a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canTake: 0
-  canFill: 1
+  canTake: 1
+  canFill: 0
   canBeUsed: 1
   onTop: {fileID: 0}
+  setpos: 0
   potion: {fileID: 4301172576368875228, guid: a4f7131af9d3a9a4aa2ff5975e39db46, type: 3}
-  value: 5
+  value:
+    value: 5
   spritesStock:
   - {fileID: -6806657871784742735, guid: 6a5f83eae1c65964fbe5b503b4fdb850, type: 3}
   - {fileID: 553203986021946378, guid: 6a5f83eae1c65964fbe5b503b4fdb850, type: 3}
@@ -212,7 +214,7 @@ MonoBehaviour:
   sprite: {fileID: 4725325721751612612}
   minusPosSpawn: 1
   plusPosSpawn: 1
-  timeToSpawn: 2
+  timeToSpawn: 0.21
 --- !u!58 &5042480917908799837
 CircleCollider2D:
   m_ObjectHideFlags: 0

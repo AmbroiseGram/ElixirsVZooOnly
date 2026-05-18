@@ -9,12 +9,12 @@ using static UnityEditor.PlayerSettings;
 public class CharacterInteractionManager : MonoBehaviour
 {
     [SerializeField] private PlayerInteractableDetector interactableDetector;
-
-    ValuedCarryable holded = null;
-
-    [SerializeField] GameObject placeholderHolded;
-    bool isTaking =false;
+    [SerializeField] private GameObject placeholderHolded;
     [SerializeField] private float heightPotion = 1f;
+
+    private ValuedCarryable holded = null;
+    private bool isAnimating = false;
+
     private void Start()
     {
         interactableDetector.SetTargetCarryable(true);
@@ -22,58 +22,138 @@ public class CharacterInteractionManager : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (!context.started)
+        if (!context.started || isAnimating)
             return;
-        if (isTaking)
-            return;
+
         if (holded == null)
-            TryHold();
+            StartCoroutine(TryHold());
         else
-            TryDrop();
+            StartCoroutine(TryDrop()); // Changé en StartCoroutine pour suivre le flux proprement
     }
 
-    private void TryDrop()
+    private IEnumerator TryHold()
+    {
+        Interactable temp = interactableDetector.GetCurrentTarget();
+        if (temp == null)
+            yield break;
+
+        ValuedCarryable tempV = temp.Take();
+        if (tempV == null) // Correction ici : on vérifie l'objet récupéré, pas le réceptacle à nouveau
+            yield break;
+
+        isAnimating = true;
+        yield return StartCoroutine(TakeAnimation(tempV));
+        isAnimating = false;
+    }
+
+    private IEnumerator TryDrop()
     {
         Interactable temp = interactableDetector.GetCurrentTarget();
 
-        holded.gameObject.SetActive(true);
-        holded.canBeUsed = true;
-        holded.transform.SetParent(null);
-        placeholderHolded.SetActive(false);
-        interactableDetector.SetTargetCarryable(true);
+        // Si on n'a pas de cible ou si la cible ne peut pas prendre l'objet, on drop au sol normalement
+        if (temp == null || !temp.canTake || temp.GetOnTop() == null)
+        {
+            isAnimating = true;
 
-        StartCoroutine(DropAnimation(holded, (temp != null) ? temp.transform.position : transform.position + Vector3.up, temp));
-        holded = null;
-    }
+            holded.gameObject.SetActive(true);
+            holded.canBeUsed = true;
+            holded.transform.SetParent(null);
+            placeholderHolded.SetActive(false);
+            interactableDetector.SetTargetCarryable(true);
+            holded.EnableAllColliders(false);
 
-    private IEnumerator DropAnimation(ValuedCarryable carried, Vector3 pos, Interactable dropPlace)
-    {
-        carried.EnableAllColliders(false);
-        carried.transform.SetParent(null);
-        if (dropPlace != null)
-            dropPlace.PreDrop(carried);
-        yield return StartCoroutine(MoveCurve(carried.gameObject, pos, 0.5f, (dropPlace != null) ? dropPlace.transform : null));
+            if (temp != null)
+                temp.PreDrop(holded);
 
-        carried.EnableAllColliders(true);
-        if (dropPlace != null)
-            dropPlace.Drop(carried);
-        yield return 0;
+            Vector3 dropPosition = (temp != null) ? temp.transform.position : transform.position + Vector3.up;
+            Transform dropTarget = (temp != null) ? temp.transform : null;
+
+            yield return StartCoroutine(MoveCurve(holded.gameObject, dropPosition, 0.5f, dropTarget));
+
+            holded.EnableAllColliders(true);
+            if (temp != null)
+                temp.Drop(holded);
+
+            holded = null;
+            isAnimating = false;
+        }
+        else
+        {
+            // Cas du Swap (Toast) : temp != null && temp.canTake
+            isAnimating = true;
+            yield return StartCoroutine(SwapAnimation(temp));
+            isAnimating = false;
+        }
     }
 
     private IEnumerator TakeAnimation(ValuedCarryable tempV)
     {
-        isTaking = true;
         holded = tempV;
         holded.canBeUsed = false;
         holded.transform.SetParent(transform);
         holded.EnableAllColliders(false);
+
         yield return StartCoroutine(MoveCurve(holded.gameObject, transform.position, 0.5f, transform));
 
         holded.gameObject.SetActive(false);
         holded.transform.position = transform.position;
         placeholderHolded.SetActive(true);
         interactableDetector.SetTargetCarryable(false);
-        isTaking = false;
+    }
+
+    private IEnumerator SwapAnimation(Interactable targetInteractable)
+    {
+        // 1. Préparation de l'objet actuellement tenu (holded) pour son départ
+        ValuedCarryable oldHolded = holded;
+        oldHolded.gameObject.SetActive(true);
+        oldHolded.canBeUsed = true;
+        oldHolded.transform.SetParent(null);
+        placeholderHolded.SetActive(false);
+        oldHolded.EnableAllColliders(false);
+
+        targetInteractable.PreDrop(oldHolded);
+
+        // 2. Récupération simultanée de la potion/objet se trouvant dans le réceptacle (temp)
+        ValuedCarryable newHolded = targetInteractable.Take();
+        newHolded.canBeUsed = false;
+        newHolded.transform.SetParent(transform);
+        newHolded.EnableAllColliders(false);
+
+        // 3. Animation simultanée des deux objets
+        float currentTime = 0;
+        float duration = 0.5f;
+
+        Vector3 startPosOld = oldHolded.transform.position;
+        Vector3 startPosNew = newHolded.transform.position;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            float lerp = currentTime / duration;
+
+            // Trajectoire de l'ancien objet vers le réceptacle
+            Vector3 targetPosOld = Vector3.Lerp(startPosOld, targetInteractable.transform.position, lerp);
+            targetPosOld.y += heightPotion * Mathf.Sin(Mathf.PI * lerp);
+            oldHolded.transform.position = targetPosOld;
+
+            // Trajectoire du nouvel objet vers le joueur
+            Vector3 targetPosNew = Vector3.Lerp(startPosNew, transform.position, lerp);
+            targetPosNew.y += heightPotion * Mathf.Sin(Mathf.PI * lerp);
+            newHolded.transform.position = targetPosNew;
+
+            yield return null;
+        }
+
+        // 4. Finalisation pour l'ancien objet déposé
+        oldHolded.EnableAllColliders(true);
+        targetInteractable.Drop(oldHolded);
+
+        // 5. Finalisation pour le nouvel objet récupéré
+        holded = newHolded;
+        holded.gameObject.SetActive(false);
+        holded.transform.position = transform.position;
+        placeholderHolded.SetActive(true);
+        interactableDetector.SetTargetCarryable(false);
     }
 
     private IEnumerator MoveCurve(GameObject target, Vector3 destination, float duration, Transform targetDestination = null)
@@ -84,24 +164,15 @@ public class CharacterInteractionManager : MonoBehaviour
         {
             currentTime += Time.deltaTime;
             float lerp = currentTime / duration;
-            if(targetDestination != null)
+
+            if (targetDestination != null)
                 destination = targetDestination.position;
+
             Vector3 targetPos = Vector3.Lerp(basepos, destination, lerp);
-            targetPos.y = heightPotion * Mathf.Sin(Mathf.PI * lerp) + Mathf.Lerp(basepos.y, destination.y, lerp);
+            targetPos.y += heightPotion * Mathf.Sin(Mathf.PI * lerp); // Légère correction de la formule pour la clarté
             target.transform.position = targetPos;
-            yield return 0;
+
+            yield return null;
         }
-    }
-
-    private void TryHold()
-    {
-        Interactable temp = interactableDetector.GetCurrentTarget();
-        if (temp == null)
-            return;
-        ValuedCarryable tempV = temp.Take(); 
-        if(temp == null)
-            return;  
-        StartCoroutine(TakeAnimation(tempV));
-
     }
 }

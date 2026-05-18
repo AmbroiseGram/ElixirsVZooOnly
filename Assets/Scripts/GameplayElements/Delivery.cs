@@ -12,7 +12,5 @@ public class Delivery : Spot
         base.Drop(carriable);
 
         Destroy(carriable.gameObject);
-        canFill = true;
-        canTake = false;
     }
 }
