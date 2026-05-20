@@ -456,11 +456,11 @@ MonoBehaviour:
   valueText: {fileID: 3411107405570217279}
   timeBar: {fileID: 8625381537167552834}
   timeBeforeExpireByLevels:
-  - 10
-  - 14
-  - 18
-  - 26
-  - 36
+  - 15
+  - 25
+  - 34
+  - 40
+  - 50
   orderImageDiff: {fileID: 995938714931558116}
   spritesByLevels:
   - {fileID: -6806657871784742735, guid: 6a5f83eae1c65964fbe5b503b4fdb850, type: 3}

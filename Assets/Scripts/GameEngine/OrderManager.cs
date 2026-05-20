@@ -10,11 +10,10 @@ public class OrderManager : MonoBehaviour
     [SerializeField] int startNumberOfOrders;
 
     [Header("Configuration du Rythme")]
-    [SerializeField] private float timeBetweenOrders = 8f;   // Temps moyen souhaité pour 1 commande
-    [SerializeField] private int targetOrderCount = 3;        // Le nombre de commandes idéal visé
-    [SerializeField] private int maxOrderCount = 5;           // NOMBRE MAX : Limite physique de l'écran
-    [SerializeField] private float minSpawnInterval = 3f;     // Temps de respiration minimum entre 2 spawns
-    [SerializeField] private float maxSpawnInterval = 20f;    // Limite max de rythme si le joueur galère
+    [SerializeField] private int targetOrderCount = 3;        
+    [SerializeField] private int maxOrderCount = 5;           
+    [SerializeField] private float minSpawnInterval = 3f;     
+    [SerializeField] private float maxSpawnInterval = 20f;    
 
     private float spawnProgress;
     private float timeSinceLastSpawn;
@@ -81,6 +80,7 @@ public class OrderManager : MonoBehaviour
 
         if (resultat != null)
         {
+            ScoreManager.Instance.ScoreOrder(resultat.GetDifficulty());
             Destroy(resultat.gameObject);
         }
     }

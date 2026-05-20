@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -44,5 +45,10 @@ public class Order : MonoBehaviour
     public float GetTimeBeforeExpire()
     {
         return currentTimeBeforeExpire / timeBeforeExpire;
+    }
+
+    internal int GetDifficulty()
+    {
+        return level;
     }
 }
