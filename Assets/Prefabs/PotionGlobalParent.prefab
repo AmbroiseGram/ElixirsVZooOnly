@@ -293,6 +293,7 @@ MonoBehaviour:
   valueText: {fileID: 4080749610152948860}
   colliders:
   - {fileID: 5959668389559149524}
+  updatePositionToMovingObject: {fileID: 1724075755424253848}
 --- !u!58 &5959668389559149524
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -404,6 +405,7 @@ MonoBehaviour:
   target: {fileID: 4895801216302738567}
   offset: 1.78
   followSpeed: 6.6
+  toHide: {fileID: 373286228277484280}
 --- !u!1 &8007461770854543717
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,6 +612,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4244cad82d6b89847ad559dbf5c9e9af, type: 3}
+--- !u!212 &373286228277484280 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3096573864062486283, guid: 4244cad82d6b89847ad559dbf5c9e9af, type: 3}
+  m_PrefabInstance: {fileID: 3447242032067796467}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7624159365292424041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5051179308015068826, guid: 4244cad82d6b89847ad559dbf5c9e9af, type: 3}

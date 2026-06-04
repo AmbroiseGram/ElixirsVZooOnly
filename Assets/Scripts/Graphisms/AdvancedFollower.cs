@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AdvancedFollower : MonoBehaviour
 {
@@ -6,6 +8,23 @@ public class AdvancedFollower : MonoBehaviour
     public float offset;
     [Range(1f, 20f)]
     public float followSpeed;
+    
+    private bool fixTarget;
+    private Transform overrideTarget;
+    [SerializeField]
+    private SpriteRenderer toHide;
+    internal void SetNewDest(Transform position)
+    {
+        fixTarget = true;
+        overrideTarget = position;
+        toHide.enabled = false;
+    }
+
+    public void CancelDest()
+    {
+        fixTarget = false;
+        toHide.enabled = true;
+    }
 
     private void Update()
     {
@@ -13,8 +32,11 @@ public class AdvancedFollower : MonoBehaviour
             Destroy(gameObject);
         else
         {
-            transform.position = Vector3.Lerp(transform.position, target.transform.position + Vector3.up * offset, Time.deltaTime * followSpeed);
+            Vector3 targetPosition = fixTarget ? overrideTarget.position : target.transform.position + Vector3.up * offset;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * followSpeed);
 
+            if(fixTarget)
+                return;
             Vector3 direction = target.transform.position - transform.position;
             if (direction != Vector3.zero)
             {

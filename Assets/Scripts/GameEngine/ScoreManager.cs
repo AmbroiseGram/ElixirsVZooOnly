@@ -18,6 +18,7 @@ public class ScoreManager : MonoBehaviour
         score += scoreByLevel[level];
         scoreText.text = score.ToString();
         scoreText2.text = score.ToString();
+        StarManager.instance.CheckStar(score);
     }
 
     public int GetScore()

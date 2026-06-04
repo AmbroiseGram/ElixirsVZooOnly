@@ -5,6 +5,8 @@ public class Spot : Interactable
 {
     public ValuedCarryable onTop;
     public bool setpos;
+    public Transform posTextPos;
+    public bool setTextPos;
     public override void Drop(ValuedCarryable carriable)
     {
 
@@ -13,7 +15,8 @@ public class Spot : Interactable
         carriable.transform.SetParent(transform);
         if (setpos)
             carriable.transform.position = transform.position;
-
+        if(setTextPos)
+            carriable.SetTargetPositionText(posTextPos);
         base.Drop(carriable);    
     }
 
@@ -21,7 +24,7 @@ public class Spot : Interactable
     {
 
         ValuedCarryable temp = onTop;
-
+        onTop.CancelTargetPositionText();
         onTop = null;
         base.Take();
         return temp;

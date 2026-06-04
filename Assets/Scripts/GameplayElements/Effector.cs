@@ -16,6 +16,8 @@ public class Effector : MonoBehaviour
     [SerializeField] private Transform posPotion;
     [SerializeField] private float amplitudeJumpPotion;
     bool skipnext = false;
+
+
     void Start()
     {
         operation = new Operation();

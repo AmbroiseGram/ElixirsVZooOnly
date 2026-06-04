@@ -5,6 +5,7 @@ public class EndGameDisplayer : MonoBehaviour
     [SerializeField] GameObject endGameDisplay;
 
     public static EndGameDisplayer instance;
+    
 
     private void Start()
     {

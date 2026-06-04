@@ -6,6 +6,7 @@ public class ValuedCarryable : Interactable
     [SerializeField] Value value;
     [SerializeField] TMPro.TMP_Text valueText;
     [SerializeField] Collider2D[] colliders;
+    [SerializeField] AdvancedFollower updatePositionToMovingObject;
     private void Start()
     {
         ShowText();
@@ -59,5 +60,14 @@ public class ValuedCarryable : Interactable
         {
             col.enabled = enable;
         }
+    }
+
+    public void SetTargetPositionText(Transform pos)
+    {
+        updatePositionToMovingObject.SetNewDest(pos);
+    }
+     public void CancelTargetPositionText()
+    {
+        updatePositionToMovingObject.CancelDest();
     }
 }
